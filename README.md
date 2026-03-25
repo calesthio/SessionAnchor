@@ -1,6 +1,8 @@
 # SessionAnchor
 
 [![PyPI version](https://img.shields.io/pypi/v/sessionanchor.svg)](https://pypi.org/project/SessionAnchor/)
+[![Python](https://img.shields.io/pypi/pyversions/sessionanchor.svg)](https://pypi.org/project/SessionAnchor/)
+[![License](https://img.shields.io/badge/license-AGPL%20v3-blue.svg)](https://github.com/calesthio/SessionAnchor/blob/master/LICENSE)
 
 One-command context memory for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) sessions.
 
