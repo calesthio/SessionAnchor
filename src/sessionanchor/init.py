@@ -87,10 +87,10 @@ def run_init(repo_root: str | None = None, skip_index: bool = False) -> None:
 
     if not cli_on_path:
         print()
-        print("  [!] WARNING: 'sessionanchor' is not on your PATH.")
-        print("      The package is installed, but the CLI may not be found.")
-        print("      Use 'python -m sessionanchor <command>' as a fallback,")
-        print("      or add the Scripts directory to your PATH.")
+        print("  [!] NOTE: 'sessionanchor' was not found on PATH.")
+        print("      If you installed with uvx or pipx, this is expected —")
+        print("      prefix commands with your runner (e.g. uvx sessionanchor boot).")
+        print("      Otherwise, use 'python -m sessionanchor <command>' as a fallback.")
 
     print()
     print("  Quick start:")

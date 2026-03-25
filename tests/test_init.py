@@ -70,7 +70,8 @@ def test_init_warns_when_cli_not_on_path(temp_repo, capsys, monkeypatch):
     monkeypatch.setattr(init_module.shutil, "which", lambda _name: None)
     run_init(repo_root=temp_repo, skip_index=True)
     captured = capsys.readouterr()
-    assert "not on your PATH" in captured.out
+    assert "not found on PATH" in captured.out
+    assert "python -m sessionanchor" in captured.out
 
 
 def test_init_patches_existing_claude_md(temp_repo):
