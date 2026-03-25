@@ -1,6 +1,6 @@
 """Tests for .contextignore parser."""
 
-from claude_context.ignore import should_ignore, redact_secrets, load_patterns, DEFAULT_PATTERNS
+from sessionanchor.ignore import should_ignore, redact_secrets, load_patterns, DEFAULT_PATTERNS
 
 
 def test_directory_pattern():

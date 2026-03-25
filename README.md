@@ -1,4 +1,4 @@
-# claude-context
+# SessionAnchor
 
 One-command context memory for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) sessions.
 
@@ -15,7 +15,7 @@ If your project has grown any real context (and most do), you're paying for it o
 
 ## The Solution
 
-`claude-context` replaces flat context files with a local SQLite memory store that uses tiered retrieval. One command gives your repo continuity across sessions.
+`SessionAnchor` replaces flat context files with a local SQLite memory store that uses tiered retrieval. One command gives your repo continuity across sessions.
 
 ```
 Before: ~18,000 tokens loaded from markdown files every session
@@ -46,7 +46,7 @@ The broader "AI memory" space has several tools, but they solve different (bigge
 | **[Zep](https://github.com/getzep/zep)** | Fast, scalable context engine with knowledge graphs | Enterprise graph-backed memory with temporal awareness. Requires a server, designed for production apps with users. |
 | **[OpenViking](https://github.com/ArcadeAI/openviking)** | Context database with hierarchical retrieval | Full context DB: session management, retrieval strategies, embedding pipelines. Another infrastructure layer. |
 
-**claude-context** is none of these. It's a single `pip install` with zero dependencies that creates a SQLite file in your repo's `.claude/` directory. No servers, no API keys, no embeddings, no hosted anything. It's closer to a `.bash_history` for your Claude sessions than a memory platform.
+**SessionAnchor** is none of these. It's a single `pip install` with zero dependencies that creates a SQLite file in your repo's `.claude/` directory. No servers, no API keys, no embeddings, no hosted anything. It's closer to a `.bash_history` for your Claude sessions than a memory platform.
 
 The sharp wedge:
 > One command gives your Claude Code repo continuity across sessions. Local-only SQLite. Measurable token savings. Nothing else.
@@ -54,11 +54,11 @@ The sharp wedge:
 ## Install
 
 ```bash
-pip install claude-context
+pip install sessionanchor
 # or
-pipx install claude-context
+pipx install sessionanchor
 # or
-uvx claude-context init
+uvx sessionanchor init
 ```
 
 **Requirements:** Python 3.9+. No dependencies (uses Python's built-in `sqlite3` with FTS5).
@@ -68,10 +68,10 @@ uvx claude-context init
 ```bash
 # 1. Initialize (run once per project)
 cd your-project
-claude-context init
+sessionanchor init
 
 # 2. At the start of every Claude Code session
-claude-context boot
+sessionanchor boot
 
 # 3. That's it. CLAUDE.md is configured to tell Claude
 #    to save context automatically during sessions.
@@ -105,7 +105,7 @@ Context is stored in three tiers, inspired by CPU cache hierarchies. Each tier h
 | **L1** | Every boot | ~1500 | Last session summary, active action items, recent decisions, current blockers |
 | **L2** | On query | Unlimited | Full history, completed items, old decisions, deep technical notes, patterns, lessons |
 
-Boot loads L0 + L1 (~2000 tokens). L2 is only retrieved when Claude calls `claude-context query` during a session. This keeps the boot payload small while making the full history searchable.
+Boot loads L0 + L1 (~2000 tokens). L2 is only retrieved when Claude calls `sessionanchor query` during a session. This keeps the boot payload small while making the full history searchable.
 
 ### Storage
 
@@ -120,7 +120,7 @@ The schema is two tables: `entries` (the memory items) and `sessions` (session m
 
 ### Auto-Compaction
 
-Without compaction, L1 bloats over time as decisions and action items accumulate. `claude-context` runs automatic compaction at every boot:
+Without compaction, L1 bloats over time as decisions and action items accumulate. `SessionAnchor` runs automatic compaction at every boot:
 
 | Strategy | Rule | Effect |
 |----------|------|--------|
@@ -170,7 +170,7 @@ This uses a simple heuristic (words x 1.3) that's ~90% accurate for English text
 
 ### How `init` Works
 
-`claude-context init` performs exactly these steps:
+`sessionanchor init` performs exactly these steps:
 
 1. Detects the repo root (walks up to find `.git`, or uses cwd)
 2. Auto-detects the project name from git remote origin or directory name
@@ -187,46 +187,46 @@ It's idempotent. Running `init` twice won't duplicate the CLAUDE.md section or o
 ## Commands
 
 ```bash
-claude-context init              # Bootstrap memory for current repo
-claude-context boot              # Print session briefing (~2000 tokens)
-claude-context boot --full       # Include stats and last session info
+sessionanchor init              # Bootstrap memory for current repo
+sessionanchor boot              # Print session briefing (~2000 tokens)
+sessionanchor boot --full       # Include stats and last session info
 
 # Save context entries
-claude-context save add \
+sessionanchor save add \
   --tier L1 \
   --category decision \
   --title "Chose Postgres" \
   --content "Better JSON support than MySQL"
 
-claude-context save add \
+sessionanchor save add \
   --tier L1 \
   --category decision \
   --title "Use OAuth PKCE" \
   --content "Replaces the legacy auth callback flow" \
   --supersedes 1a2b3c4d5e6f7890
 
-claude-context save complete \
+sessionanchor save complete \
   --title "Build auth flow" \
   --category action_item
 
-claude-context save session-end \
+sessionanchor save session-end \
   --summary "Shipped auth, started rate limiting"
 
 # Query memory
-claude-context query "auth"                    # Full-text search
-claude-context query --category decision       # By category
-claude-context query --category action_item --status active
-claude-context query --since 7                 # Last 7 days
+sessionanchor query "auth"                    # Full-text search
+sessionanchor query --category decision       # By category
+sessionanchor query --category action_item --status active
+sessionanchor query --since 7                 # Last 7 days
 
 # Codebase index
-claude-context index             # Re-index repo structure
-claude-context index find "auth" # Search code files
-claude-context index map         # Show structural overview
+sessionanchor index             # Re-index repo structure
+sessionanchor index find "auth" # Search code files
+sessionanchor index map         # Show structural overview
 
 # Maintenance
-claude-context compact           # Manual L1 compaction
-claude-context stats             # Memory store statistics
-claude-context version           # Show version
+sessionanchor compact           # Manual L1 compaction
+sessionanchor stats             # Memory store statistics
+sessionanchor version           # Show version
 ```
 
 ## Categories
@@ -264,12 +264,12 @@ Transparency about what this tool does **not** do:
 Contributions welcome. The codebase is intentionally small (~1,200 lines of Python, zero dependencies). If your change adds a dependency, it needs a very strong justification.
 
 ```bash
-git clone https://github.com/ishanb/claude-context
-cd claude-context
+git clone https://github.com/calesthio/SessionAnchor
+cd SessionAnchor
 pip install -e .
 pytest tests/ -v
 ```
 
 ## License
 
-MIT
+GNU AGPL v3

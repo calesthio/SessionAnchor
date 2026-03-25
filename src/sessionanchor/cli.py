@@ -1,17 +1,17 @@
-"""Unified CLI entry point for claude-context.
+"""Unified CLI entry point for SessionAnchor.
 
 Usage:
-    claude-context init              # Bootstrap memory for current repo
-    claude-context boot              # Print session briefing
-    claude-context save add ...      # Save a context entry
-    claude-context save complete ... # Mark entry completed
-    claude-context save session-end  # Record session summary
-    claude-context query "search"    # Deep search
-    claude-context index             # Re-index codebase
-    claude-context index find "X"    # Search codebase
-    claude-context index map         # Show structure
-    claude-context compact           # Manual compaction
-    claude-context stats             # Show memory stats
+    sessionanchor init              # Bootstrap memory for current repo
+    sessionanchor boot              # Print session briefing
+    sessionanchor save add ...      # Save a context entry
+    sessionanchor save complete ... # Mark entry completed
+    sessionanchor save session-end  # Record session summary
+    sessionanchor query "search"    # Deep search
+    sessionanchor index             # Re-index codebase
+    sessionanchor index find "X"    # Search codebase
+    sessionanchor index map         # Show structure
+    sessionanchor compact           # Manual compaction
+    sessionanchor stats             # Show memory stats
 """
 
 import sys
@@ -55,7 +55,7 @@ def main():
 
     elif command == "version":
         from . import __version__
-        print(f"claude-context {__version__}")
+        print(f"sessionanchor {__version__}")
 
     else:
         print(f"Unknown command: {command}")
@@ -65,7 +65,7 @@ def main():
 
 
 def _print_help():
-    print("claude-context — One-command context memory for Claude Code")
+    print("SessionAnchor - One-command context memory for Claude Code")
     print()
     print("Commands:")
     print("  init              Bootstrap memory for the current repo")
@@ -73,14 +73,14 @@ def _print_help():
     print("  save add ...      Save a context entry")
     print("  save complete ... Mark an entry as completed")
     print("  save session-end  Record end-of-session summary")
-    print("  query \"search\"    Search memory (full-text)")
+    print('  query "search"    Search memory (full-text)')
     print("  index             Re-index the codebase")
-    print("  index find \"X\"    Search codebase files")
+    print('  index find "X"    Search codebase files')
     print("  index map         Show structural overview")
     print("  compact           Run L1 compaction manually")
     print("  stats             Show memory store statistics")
     print("  version           Show version")
     print()
     print("Quick start:")
-    print("  claude-context init    # Run once per project")
-    print("  claude-context boot    # Run at start of every session")
+    print("  sessionanchor init    # Run once per project")
+    print("  sessionanchor boot    # Run at start of every session")

@@ -6,7 +6,7 @@ import tempfile
 
 import pytest
 
-from claude_context.store import (
+from sessionanchor.store import (
     archive_entry,
     complete_entry,
     expire_stale_entries,

@@ -1,6 +1,6 @@
 """Tests for token estimation."""
 
-from claude_context.tokens import estimate_tokens
+from sessionanchor.tokens import estimate_tokens
 
 
 def test_empty_string():

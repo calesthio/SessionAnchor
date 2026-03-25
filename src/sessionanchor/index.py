@@ -348,7 +348,7 @@ def show_map(conn, project: str) -> str:
         ).fetchall()
     ]
     if not entries:
-        return "No code index found. Run `claude-context index` first."
+        return "No code index found. Run `sessionanchor index` first."
 
     lines = []
     by_tag: dict[str, list] = {}
@@ -438,7 +438,7 @@ def main(args=None):
     elif parsed.command == "map":
         db_path = parsed.db or get_db_path()
         if not os.path.exists(db_path):
-            print("No memory database found. Run `claude-context init` first.")
+            print("No memory database found. Run `sessionanchor init` first.")
             return
         conn = get_connection(db_path)
         init_db(conn)

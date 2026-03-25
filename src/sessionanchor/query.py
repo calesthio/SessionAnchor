@@ -46,7 +46,7 @@ def main(args=None):
 
     db_path = parsed.db or get_db_path()
     if not os.path.exists(db_path):
-        print("No memory database found. Run `claude-context init` first.")
+        print("No memory database found. Run `sessionanchor init` first.")
         return
 
     conn = get_connection(db_path)

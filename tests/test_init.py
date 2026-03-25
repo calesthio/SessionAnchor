@@ -6,7 +6,7 @@ import shutil
 
 import pytest
 
-from claude_context.init import run_init
+from sessionanchor.init import run_init
 
 
 @pytest.fixture
@@ -45,7 +45,7 @@ def test_init_creates_claude_md(temp_repo):
     with open(claude_md) as f:
         content = f.read()
     assert "## Context Management" in content
-    assert "claude-context boot" in content
+    assert "sessionanchor boot" in content
 
 
 def test_init_patches_existing_claude_md(temp_repo):

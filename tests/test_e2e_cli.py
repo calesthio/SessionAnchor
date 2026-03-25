@@ -1,6 +1,7 @@
 """End-to-end CLI tests that exercise the README workflows."""
 
 import json
+import os
 import re
 import sqlite3
 import subprocess
@@ -10,7 +11,18 @@ from pathlib import Path
 import pytest
 
 
-CLI = [sys.executable, "-m", "claude_context"]
+CLI = [sys.executable, "-m", "sessionanchor"]
+SRC_DIR = Path(__file__).resolve().parents[1] / "src"
+
+
+def cli_env() -> dict[str, str]:
+    """Build a subprocess env that imports SessionAnchor from this repo's src tree."""
+    pythonpath = os.pathsep.join(
+        [str(SRC_DIR), os.environ["PYTHONPATH"]] if os.environ.get("PYTHONPATH") else [str(SRC_DIR)]
+    )
+    env = os.environ.copy()
+    env["PYTHONPATH"] = pythonpath
+    return env
 
 
 def run_cli(repo: Path, *args: str, expect_code: int = 0) -> subprocess.CompletedProcess:
@@ -20,6 +32,7 @@ def run_cli(repo: Path, *args: str, expect_code: int = 0) -> subprocess.Complete
         cwd=repo,
         capture_output=True,
         text=True,
+        env=cli_env(),
     )
     assert result.returncode == expect_code, (
         f"command={args}\nstdout={result.stdout}\nstderr={result.stderr}"

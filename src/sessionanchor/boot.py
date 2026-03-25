@@ -29,7 +29,7 @@ def boot(project: str | None = None, full: bool = False,
     if not os.path.exists(db):
         return (
             "# No memory database found.\n"
-            "# Run `claude-context init` to set up context memory for this project."
+            "# Run `sessionanchor init` to set up context memory for this project."
         )
 
     conn = get_connection(db)

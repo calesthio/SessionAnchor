@@ -6,8 +6,8 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from claude_context.store import get_connection, init_db, upsert_entry
-from claude_context.compact import compact_l1
+from sessionanchor.store import get_connection, init_db, upsert_entry
+from sessionanchor.compact import compact_l1
 
 
 @pytest.fixture

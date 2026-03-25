@@ -1,16 +1,15 @@
 [project]
-name = "claude-context"
+name = "SessionAnchor"
 version = "0.1.0"
 description = "One-command context memory for Claude Code sessions. Local SQLite, zero dependencies."
 readme = "README.md"
 requires-python = ">=3.9"
-license = {text = "MIT"}
-authors = [{name = "Ishan Bhatt"}]
+license = {text = "GNU Affero General Public License v3"}
 keywords = ["claude", "context", "memory", "ai", "llm", "claude-code"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -22,18 +21,18 @@ classifiers = [
 dependencies = []
 
 [project.scripts]
-claude-context = "claude_context.cli:main"
+sessionanchor = "sessionanchor.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/ishanb/claude-context"
-Repository = "https://github.com/ishanb/claude-context"
+Homepage = "https://github.com/calesthio/SessionAnchor"
+Repository = "https://github.com/calesthio/SessionAnchor"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/claude_context"]
+packages = ["src/sessionanchor"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
