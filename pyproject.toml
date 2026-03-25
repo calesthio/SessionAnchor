@@ -1,0 +1,39 @@
+[project]
+name = "claude-context"
+version = "0.1.0"
+description = "One-command context memory for Claude Code sessions. Local SQLite, zero dependencies."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "Ishan Bhatt"}]
+keywords = ["claude", "context", "memory", "ai", "llm", "claude-code"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = []
+
+[project.scripts]
+claude-context = "claude_context.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/ishanb/claude-context"
+Repository = "https://github.com/ishanb/claude-context"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/claude_context"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

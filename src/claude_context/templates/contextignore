@@ -1,0 +1,32 @@
+# .contextignore — files excluded from claude-context indexing
+# Uses gitignore-style patterns
+
+# Secrets & credentials
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Build artifacts
+node_modules/
+dist/
+build/
+.next/
+__pycache__/
+*.pyc
+coverage/
+.vercel/
+vendor/
+
+# Large/binary files
+*.sqlite
+*.db
+*.wasm
+*.zip
+*.tar.gz
+*.jar
+
+# Claude's own memory
+.claude/memory/

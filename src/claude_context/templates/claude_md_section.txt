@@ -1,0 +1,54 @@
+
+## Context Management
+
+This project uses [claude-context](https://github.com/ishanb/claude-context) for session continuity.
+**Do NOT read large context files at session start.** Use the memory system instead.
+
+### Session Start Protocol
+
+```bash
+# 1. Get your briefing (~2000 tokens instead of reading all project files)
+claude-context boot
+
+# 2. If you need deeper context on any topic during the session:
+claude-context query "search terms"
+
+# 3. If you need to understand code structure:
+claude-context index find "topic"
+claude-context index map
+```
+
+### Context Saving (MANDATORY — do not skip)
+
+**Save context continuously, not just at session end.** After completing any substantive work
+(a feature, a fix, a decision, a research task), immediately write the relevant context to memory.
+Do NOT wait for the user to ask. Do NOT wait for "end of session." The user may close the
+window at any time.
+
+**How to save: use a subagent.** Do NOT block the main conversation. Spawn a background agent
+with the save commands and continue working.
+
+**When to save (trigger immediately after any of these):**
+- A decision is made → `claude-context save add --tier L1 --category decision --title "..." --content "..."`
+- A task is completed → `claude-context save complete --title "..." --category action_item`
+- A new blocker is discovered → `claude-context save add --tier L1 --category blocker --title "..." --content "..."`
+- New technical knowledge → `claude-context save add --tier L2 --category technical_note --title "..." --content "..."`
+- Significant code changes → `claude-context save add --tier L1 --category session_log --title "..." --content "..."`
+
+**Session summary (run when work naturally winds down):**
+```bash
+claude-context save session-end --summary "What was accomplished"
+```
+
+### Memory Tiers
+
+- **L0** (~500 tokens): Identity, current phase, top priorities. Always loaded.
+- **L1** (~1500 tokens): Recent decisions, active action items, blockers. Loaded at boot.
+- **L2** (on-demand): Full history, completed items, deep technical notes. Query when needed.
+
+### Re-indexing
+
+Run after major structural changes:
+```bash
+claude-context index
+```
