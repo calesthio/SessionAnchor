@@ -339,7 +339,7 @@ def test_index_find_and_map_cover_repo_workflow(repo: Path):
     conn.close()
 
     assert "Indexed" in index_result.stdout
-    assert "src\\auth.py" in find_result.stdout
+    assert str(Path("src") / "auth.py") in find_result.stdout
     assert ".env" not in find_result.stdout
     assert "## Modules" in map_result.stdout
     assert "## File Tree" in map_result.stdout
