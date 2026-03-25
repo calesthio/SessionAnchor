@@ -63,6 +63,11 @@ def test_claude_md_has_mandatory_sections(temp_repo):
     assert "pip install sessionanchor" in content
     # python -m fallback
     assert "python -m sessionanchor" in content
+    # runner fallback for ephemeral installs
+    assert "uvx sessionanchor" in content
+    # completion wording should stay accurate
+    assert "marks the action item as completed" in content
+    assert "leaves the boot briefing" not in content
 
 
 def test_init_warns_when_cli_not_on_path(temp_repo, capsys, monkeypatch):
@@ -72,6 +77,7 @@ def test_init_warns_when_cli_not_on_path(temp_repo, capsys, monkeypatch):
     captured = capsys.readouterr()
     assert "not found on PATH" in captured.out
     assert "python -m sessionanchor" in captured.out
+    assert "<launcher> sessionanchor" in captured.out
 
 
 def test_init_patches_existing_claude_md(temp_repo):

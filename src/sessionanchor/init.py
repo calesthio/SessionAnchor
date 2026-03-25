@@ -79,6 +79,7 @@ def run_init(repo_root: str | None = None, skip_index: bool = False) -> None:
 
     # Verify CLI is discoverable on PATH
     cli_on_path = shutil.which("sessionanchor") is not None
+    quick_start_prefix = "sessionanchor"
 
     print()
     print("=" * 60)
@@ -86,27 +87,29 @@ def run_init(repo_root: str | None = None, skip_index: bool = False) -> None:
     print("=" * 60)
 
     if not cli_on_path:
+        quick_start_prefix = "<launcher> sessionanchor"
         print()
         print("  [!] NOTE: 'sessionanchor' was not found on PATH.")
-        print("      If you installed with uvx or pipx, this is expected —")
-        print("      prefix commands with your runner (e.g. uvx sessionanchor boot).")
-        print("      Otherwise, use 'python -m sessionanchor <command>' as a fallback.")
+        print("      Use the same launcher for future commands, e.g.")
+        print("      'uvx sessionanchor ...', 'pipx run sessionanchor ...',")
+        print("      or 'python -m sessionanchor ...'.")
+        print("      Replace <launcher> in the examples below with the one you use.")
 
     print()
     print("  Quick start:")
     print()
     print("  # At session start - get your briefing")
-    print("  sessionanchor boot")
+    print(f"  {quick_start_prefix} boot")
     print()
     print("  # Save a decision")
-    print('  sessionanchor save add --tier L1 --category decision \\')
+    print(f'  {quick_start_prefix} save add --tier L1 --category decision \\')
     print('    --title "Chose SQLite" --content "Zero deps, local-only"')
     print()
     print("  # Search memory")
-    print('  sessionanchor query "deployment"')
+    print(f'  {quick_start_prefix} query "deployment"')
     print()
     print("  # End of session")
-    print('  sessionanchor save session-end --summary "Built auth flow"')
+    print(f'  {quick_start_prefix} save session-end --summary "Built auth flow"')
     print()
     print("  CLAUDE.md has been configured to instruct Claude to use")
     print("  this memory system automatically.")
