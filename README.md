@@ -1,5 +1,7 @@
 # SessionAnchor
 
+[![PyPI version](https://img.shields.io/pypi/v/sessionanchor.svg)](https://pypi.org/project/SessionAnchor/)
+
 One-command context memory for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) sessions.
 
 ## The Problem
