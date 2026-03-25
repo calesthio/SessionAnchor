@@ -1,6 +1,6 @@
 [project]
 name = "SessionAnchor"
-version = "0.1.0"
+version = "0.1.1"
 description = "One-command context memory for Claude Code sessions. Local SQLite, zero dependencies."
 readme = "README.md"
 requires-python = ">=3.9"
