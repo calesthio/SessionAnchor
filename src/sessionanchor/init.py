@@ -77,10 +77,21 @@ def run_init(repo_root: str | None = None, skip_index: bool = False) -> None:
 
     conn.close()
 
+    # Verify CLI is discoverable on PATH
+    cli_on_path = shutil.which("sessionanchor") is not None
+
     print()
     print("=" * 60)
     print("  SessionAnchor initialized!")
     print("=" * 60)
+
+    if not cli_on_path:
+        print()
+        print("  [!] WARNING: 'sessionanchor' is not on your PATH.")
+        print("      The package is installed, but the CLI may not be found.")
+        print("      Use 'python -m sessionanchor <command>' as a fallback,")
+        print("      or add the Scripts directory to your PATH.")
+
     print()
     print("  Quick start:")
     print()

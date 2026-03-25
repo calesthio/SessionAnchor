@@ -2,53 +2,69 @@
 ## Context Management
 
 This project uses [SessionAnchor](https://github.com/calesthio/SessionAnchor) for session continuity.
-**Do NOT read large context files at session start.** Use the memory system instead.
 
-### Session Start Protocol
+### MANDATORY: Session Start (do this FIRST, before any other work)
+
+Run this before doing anything else:
+```bash
+sessionanchor boot
+```
+- If `command not found`: run `pip install sessionanchor`, then retry.
+  If the command is still not found, use `python -m sessionanchor boot` instead.
+- If `No memory database found`: run `sessionanchor init`, then `sessionanchor boot`.
+- Read the output — it contains prior decisions, active work, and blockers from previous sessions.
+- Do NOT skip this. Do NOT read large project files as a substitute.
+
+### MANDATORY: Save After Every Substantive Action
+
+You MUST save context after each of these — do NOT batch, do NOT wait for session end:
+- A feature, fix, or deliverable is completed
+- A decision is made (technical choice, architecture, tradeoff)
+- A blocker is discovered
+- You learn something non-obvious about the codebase
+
+**How to save:**
+- If your platform supports background agents: spawn one with the save command
+- Otherwise: run the save command inline before continuing
 
 ```bash
-# 1. Get your briefing (~2000 tokens instead of reading all project files)
-sessionanchor boot
+# Decision made
+sessionanchor save add --tier L1 --category decision --title "..." --content "..."
 
-# 2. If you need deeper context on any topic during the session:
-sessionanchor query "search terms"
+# Task/feature completed
+sessionanchor save add --tier L1 --category session_log --title "..." --content "..."
 
-# 3. If you need to understand code structure:
-sessionanchor index find "topic"
-sessionanchor index map
+# Blocker found
+sessionanchor save add --tier L1 --category blocker --title "..." --content "..."
+
+# Technical knowledge learned
+sessionanchor save add --tier L2 --category technical_note --title "..." --content "..."
+
+# Mark a previously saved action item as done
+sessionanchor save complete --title "..." --category action_item
 ```
 
-### Context Saving (MANDATORY - do not skip)
+**Self-check: if you have completed 3+ tasks without running a single save command, stop and save now.**
 
-**Save context continuously, not just at session end.** After completing any substantive work
-(a feature, a fix, a decision, a research task), immediately write the relevant context to memory.
-Do NOT wait for the user to ask. Do NOT wait for "end of session." The user may close the
-window at any time.
+### Session End
 
-**How to save: use a subagent.** Do NOT block the main conversation. Spawn a background agent
-with the save commands and continue working.
-
-**When to save (trigger immediately after any of these):**
-- A decision is made -> `sessionanchor save add --tier L1 --category decision --title "..." --content "..."`
-- A task is completed -> `sessionanchor save complete --title "..." --category action_item`
-- A new blocker is discovered -> `sessionanchor save add --tier L1 --category blocker --title "..." --content "..."`
-- New technical knowledge -> `sessionanchor save add --tier L2 --category technical_note --title "..." --content "..."`
-- Significant code changes -> `sessionanchor save add --tier L1 --category session_log --title "..." --content "..."`
-
-**Session summary (run when work naturally winds down):**
+When work winds down:
 ```bash
 sessionanchor save session-end --summary "What was accomplished"
 ```
 
-### Memory Tiers
+### Reference: Querying Deep Context
 
-- **L0** (~500 tokens): Identity, current phase, top priorities. Always loaded.
-- **L1** (~1500 tokens): Recent decisions, active action items, blockers. Loaded at boot.
-- **L2** (on-demand): Full history, completed items, deep technical notes. Query when needed.
-
-### Re-indexing
-
-Run after major structural changes:
 ```bash
+# Search memory for a topic
+sessionanchor query "search terms"
+
+# Re-index after major structural changes (new directories, renamed modules)
 sessionanchor index
 ```
+
+### Reference: Memory Tiers
+
+- **L0** (~500 tokens): Identity, current phase, top priorities. Always loaded at boot.
+- **L1** (~1500 tokens): Recent decisions, active items, blockers. Loaded at boot.
+- **L2** (on-demand): Full history, completed items, deep technical notes. Use `sessionanchor query` to retrieve.
