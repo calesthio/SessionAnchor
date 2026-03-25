@@ -48,6 +48,12 @@ sessionanchor save add --tier L2 --category technical_note --title "..." --conte
 
 **Self-check: if you have completed 3+ tasks without running a single save command, stop and save now.**
 
+**Scope guard: only save context that is relevant to THIS project.** If the user asks you to
+work on an unrelated repo, fix an external tool, or do research that does not affect this
+codebase, do NOT save that work here — it is noise. Example: if this project is a web app and
+the user asks you to debug a CLI tool in a different repo mid-session, that debugging context
+does not belong in this project's memory.
+
 ### Session End
 
 When work winds down:
