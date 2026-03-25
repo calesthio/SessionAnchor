@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - "codex/**"
+      - "harden-*"
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install test and build tooling
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest build twine
+
+      - name: Run test suite
+        run: python -m pytest -q
+
+      - name: Build distributions
+        run: python -m build
+
+      - name: Check distribution metadata
+        run: python -m twine check dist/*
+
+      - name: Smoke test installed package
+        run: |
+          python -m venv .venv-ci
+          .venv-ci/bin/python -m pip install dist/*.whl
+          .venv-ci/bin/sessionanchor --help
+          .venv-ci/bin/python -m sessionanchor --help
